@@ -1,32 +1,3 @@
-
-5月
-
-1. 批量更新百万级千万级的数据(不是本质上解决的方法)
-       1. find_each find_in_batches
-       2. 使用update_column字段更新 跳过 回调与校验
-       3. 可以将需要的数据拼接成为string类型 然后一条mysql执行 (感觉这个不一定ok)
-       StudentWork.find_each(batch_size: 10000,start: 10) do |work|
-             # update_column 方法取消校验与回调
-             work.update_column(:unadjusted_score, work.work_score)
-           end
-
-2. rails ActiveRecord下回调
- https://doc.bccnsoft.com/docs/rails-guides-4.1-cn/active_record_callbacks.html
-
-
-3 git配置
-    $ git config --global user.name "Your Name"
-    $ git config --global user.email your.email@example.com
-
-
-
-
-3. rails enum特性
-    1. https://ruby-china.org/topics/28654
-
-
-
-4. rails + vue初始化搭建
 今年
 
 1. 争取吧数据库工程师资格证书考了

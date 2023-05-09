@@ -6,7 +6,7 @@
 # File.dirname(__FILE__) 当前路径
 # $LOAD_PATH.unshift方法的目的就是将当前目录作为ruby标准的加载路径
 #todo 参考文档 http://t.zoukankan.com/huzhiwei-p-2408484.html
-p File.dirname(__FILE__) # todo 在rails c下为 '.' Rails.root
+p File.dirname(__FILE__) # todo 在rails c下为 '.' 23year.root
 $LOAD_PATH.unshift(File.dirname(__FILE__)) unless $LOAD_PATH.include?(File.dirname(__FILE__))
 p '-' * 100
 require_relative  '../KevinPublic'
