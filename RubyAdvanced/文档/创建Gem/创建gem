@@ -1,0 +1,16 @@
+1. 创建一个文件夹Demo(存放lib与test文件夹)
+2. 增加lib文件夹(存放主代码与文件) test文件夹(存放test文件)
+3. 在Demo下增加gemspec文件如 kevin_gem.gemspec(文件名必须与住口class同名)文件 并创建Gem::Specification类do操作
+4. 在lib下增加主要class文件(kevin_gem.rb)
+5. 编写代码
+6. 在Demo路径下 执行 gem build kevin_gem.gemspec创建gem
+
+
+
+操作gem
+
+gem install kevin_gem-0.0.1.gem
+require 'kevin_gem' # 会执行当前kevin_gem文件
+demo = KevinGem.new(1,6)
+demo.send_x
+demo.send_y
