@@ -3,7 +3,7 @@
      https://blog.csdn.net/qq_43603125/article/details/124719789
      https://blog.csdn.net/w417950004/article/details/128810460
      https://www.cnblogs.com/thammer/p/16254473.html
-     注意:  只是在kevin用户下创建 ~/.ssh对应秘钥，在root账号下允许clone项目，push等其他操作出现(报错)  而使用kevin则正常
+     注意:  只是在kevin用户下创建 ~/.ssh对应秘钥，在root账号下允许clone GitHub项目，push等其他操作出现(报错)  而使用kevin则正常
      => 答案:
         1. 按道理来说root有管理kevin的所有权限，因此在root身份下是允许的
         2. ssh方式应该是根据用户来的，只有在root下增加ssh配置才允许root下直接push，而https应该是忽略身份的，GitLink(用的是https或者ssh) GitHub(使用ssh)
