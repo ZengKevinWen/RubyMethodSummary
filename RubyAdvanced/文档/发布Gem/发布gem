@@ -1,0 +1,4 @@
+1. 在创建Gem目录下登录rubygems => curl -u user_name(Zkw1323841527) https://rubygems.org/apiv1/api_key.yaml
+2. 对应目录下发布gem => push gem kevin_gem-0.0.1.gem
+3. 输入对应邮箱 密码等 => 发送成功 在gems上可以搜索
+4. 将对应代码发布到github上去 => github本地新建项目并发布到github上去
