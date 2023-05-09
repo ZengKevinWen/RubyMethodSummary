@@ -1,4 +1,5 @@
 1.本机增加多个Git服务(同时GitHub Gitlab GitLink)等
+    1.根据下方链接配置多个git账号后,开始clone 写法  git clone GitHub(配置Host的name):url(ssh仓库后半截url) -> 下列参考文档中存在
   => https://blog.csdn.net/weixin_37815019/article/details/110440234
      https://blog.csdn.net/qq_43603125/article/details/124719789
      https://blog.csdn.net/w417950004/article/details/128810460
