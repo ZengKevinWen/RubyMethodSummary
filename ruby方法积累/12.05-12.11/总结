@@ -1,0 +1,66 @@
+
+rails
+
+
+6. %Q(写法) courses_controller下 export_records方法 --- ok
+
+
+7. enum结合查询写法 courses_controller下 export_total_exercises_and_other_score等导出数据方法 ------ok
+
+
+8. user.admins? user.business? 因为在mysql下 admin与business是boolean类型(tinyint) 在rails中使用该写法 可以自动判断 ---ok
+
+9. attributes下 except与dup(复制对象) https://www.codenong.com/48640075/
+    attributes:
+    Blog.last.attributes => demo = {"id"=>7, "name"=>"kevin4", "content"=>"测试4", "created_at"=>Sun, 06 Nov 2022 19:29:01 UTC +00:00, "updated_at"=>Sun, 06 Nov 2022 19:29:01 UTC +00:00, "pinyin_name"=>"kevin4", "status"=>"publish", :id=>123}
+    demo.merge("id"=> 11 ) 或者 demo.merge({"id" => 11}) demo中id为11 !! if demo.merge(id: 88) 或者("id": 88) 都是在demo最后增加:id => 88 结合create方法 id以为最后的id为准
+    update方法同上 => 都是找到就更新 没找到就增加  ---ok
+    except: 注意 必须是 except("id")写法  其他无效写法如： except(:id)
+    Blog.first.attributes.except("id","created_at", "updated_at") => { "name"=>"kevin4", "content"=>"测试4",  "pinyin_name"=>"kevin4", "status"=>"publish"}
+    dup： 注意使用dup生成的是个对象
+    Blog.last.dup => #<Blog id: nil, name: "kevin4", content: "测试4", created_at: nil, updated_at: nil, pinyin_name: "kevin4", status: "publish">
+
+    以上方法中可以根据业务逻辑来采用方法
+
+注意点：参考交通职院(招聘模块智能推送功能 => v5下jobs_controller的intelligent_find方法)
+1. includes(:users) 与 joins(:users) 最好不要结合使用如： 在使用includes下 joins与通过函数去查询数据as等方法 includes方法会转化众多 as1表 as2表 性能上有很大问题 同时在select时候还会有问题！！！ ---ok
+
+2. rails请求执行controller代码过程  --ok
+		resumes = Resume.joins(:user).all
+      		resumes = resumes.by_q(params[:q].to_s.strip) if params[:q].present?
+      		resumes = resumes.by_city(params[:city].to_s.strip) if params[:city].present?
+      		resumes = resumes.by_position(params[:position_type].to_s.strip) if params[:position_type].present?
+      		上方语句执行中,无论params参数是否存在 执行的都是rails mysql语句 查看控制器发现 上方代码对应的mysql语句中其实并没有加载到内存中
+      		当增加 p resumes 或者 resumes的类型转化其他类型如: resume_ids = resumes.ids代码 将会吧上面所有代码对应语句在内存中执行！
+      		注意 对resumes使用select方法时，数据类型并没有改变(因此并没在内存中执行)而使用pluck,count等方法时候 数据类型(ActiveRecord_Relation类型 => Fixnum类型)改变(因此在内存中执行)
+
+
+3. 上传简历头像时 请求头为 Accept: "application/json"类型后端wirte_file才写入 否则写入文件大小为0   --ok
+
+
+4. 转码问题 当city总是 字母string(a与C++等拼凑的特殊字符) 后端进行CGI.escape()处理即可   ---ok
+   如果有汉字string 如"阿萨德" 请求在接口中会对"阿萨德"进行转码 如果调用CGI.escape()会转码成原来  ---所以 在有 c c++ 汉字等参数前端必须 要给 c%2B%2B类型 后端不需要CGI.escape()操作
+
+
+mysql：----ok 有时间多看
+(招聘模块智能推送)
+1. https://blog.csdn.net/m0_67402026/article/details/124005394  http://t.zoukankan.com/yanggb-p-12330249.html find_in_set方法
+
+
+2. find_in_set(精确匹配并且 ,隔开 如: 北京只能匹配北京 不能匹配北京市) LOCATE(字符串匹配可以匹配北京市)  REGEXP等方法(正则)
+
+
+3. as深入了解 https://m.php.cn/article/486970.html => 注意：表别名只在执行查询时使用，并不在返回结果中显示。而字段定义别名之后，会返回给客户端显示，显示的字段为字段的别名。
+
+
+
+
+明天
+	1. 早上 饼 早上ruby基础
+	2. 中午 饭 菜( 辣椒炒肉 莴笋炒肉 )  葱 大蒜 大蒜头 莴笋  毕业设计
+	3. 晚上基层中午的 可以在加个蛋  股票
+
+后天
+	1. 早上吃个饺子   ruby 基础
+	2. 中午 饭菜( 香干炒肉 胡萝卜炒肉 ) ruby总结
+	3. 晚上基于中午加个蛋 股票

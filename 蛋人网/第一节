@@ -1,0 +1,32 @@
+1.创建项目
+   rails new demo_name --skip-bundle --skip-puma --skip-burbolinks -d mysql
+	--ship-bundle # 创建项目后取消自动bundle
+	-- ship-puma #取消按照puma服务(puma包 与puma文件夹与服务)
+		1. puma的作用 =rails 默认的web服务
+			https://www.cnblogs.com/dajianshi/p/13206713.html
+		2. Gemfile下取消后 rails s也是可以运行
+	--ship-turbolinks # 取消按照turbolinks(一个功能完善的前端gems)
+	-d mysql #  指定mysql数据库
+
+
+2. application.rb文件配置取消自动生成js css test等文件写法
+	# rails generate 操作name 会自动生产一些js css test文件 下列代码将取消生成这些文件
+	    config.generators do |g|
+	      g.assets false
+	      g.test_framework false
+	    end
+
+
+3. rails db:create用法
+	1. 通过database.yml下配置信息; development环境 test环境自动生产对应的表
+
+
+4. 第一次本地创建demo推送git服务
+	https://www.likecs.com/show-305359345.html
+
+
+2. 初始化js,css Gem包与轻量级用户管理工具基本使用 
+    用户管理工具sorcery基本使用与font-ans
+
+    # 图标库
+    gem 'font-awesome-sass'

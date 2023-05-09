@@ -1,0 +1,43 @@
+
+三月目标
+Rails
+
+2. 蛋人网(rails项目-BS商城)
+
+4. rails 前端技术闪现消息还带加强(最开始的rails书籍要回顾一下)
+
+
+7. educoder用户功能设计   => 也是个重点与难点
+    1.游客登录(用户并没有登录)时候 current_user = User.find(2) => 代码如何实现从User.current切入
+
+
+Git
+6. https://blog.csdn.net/qq_35432904/article/details/107232691(分支间合并部分commit)与一些常见的使用
+
+Ruby
+
+1. ruby进阶
+
+2. method_missing方法
+
+3. gem包的创建与发布
+
+4. 若想自定义父类原有的方法 在当前类下 自定义父类方法 => 原理是在父类方法的基础上增加代码 => 待测试(结合 copy项目下 Timemodel模块)
+
+
+
+复习
+1.  10.24-10.30
+    11.07-11.13
+    11.21-11.27
+    11.28-12.04
+    12.05-12。11
+    12.12-12.18
+
+
+2. dev_local_v7_kjyj分支下 sci/projects_controller下  根据collection方法搜索 joins(:collections)时 会在joins后 on条件上自动增加 container_type="Sci:Project"的判断 这个是什么时候加上去 待研究
+
+
+3. CustomFunctionDemo项目所有commit复习
+
+

@@ -1,0 +1,49 @@
+rails
+1. rails服务启动原理(观看bibi视频 本周搞定)
+2. jbuilder包加强使用 ---ok
+3. resumes_controller下avatar_url方法下 ApplicationController.helpers.resume_logo等写法
+4. Resume下salary的枚举写法
+5. 试题库与在线试卷导入接口设计实现
+	5.1查看ApplicationService中所有的 include motheds
+	5.2. class Exercises::ImportItemService < ApplicationService类下 call方法有一种写法 注意！！
+	5.3 excel.read_each(&method(:save_data))这个写法一直没看懂！！
+6. shixun.rb下 include Timeable写法
+7. shixuns,subjects,courses结合searchkick的使用 参考ShixunSearchService < ApplicationService方法
+
+Gem
+1.searchkick 全局索引包(这个东西以后的好好研究研究)
+
+
+ruby
+1. public private protected 区别https://blog.csdn.net/weixin_37413070/article/details/108465230
+
+
+
+
+mysql
+1. navicate查看mysql版本  https://blog.51cto.com/u_10745109/5611056
+
+2. mysql如何存储emoji表情包数据  https://blog.csdn.net/qq_42251944/article/details/125484890
+
+3. 查看字段 表 库 的字符编码格式与修改
+    https://www.php.cn/mysql-tutorials-493341.html
+    http://t.zoukankan.com/Xingtxx-p-11745647.html
+
+
+    educoder:
+    show full COLUMNS FROM shixun_infos;
+    ALTER TABLE shixun_infos CHANGE description description LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    show full COLUMNS FROM shixun_infos;
+    show full COLUMNS FROM challenges;
+    ALTER TABLE challenges CHANGE task_pass task_pass TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    show full COLUMNS FROM challenges;
+
+
+    local:
+    show full columns from blogs;
+    -- alter table blogs convert to character SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    alter table blogs convert to character SET utf8 COLLATE utf8_generic_ci;
+    alter table blogs CREATE content content LONGTEXT  character SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    -- show full columns from blogs;
+
+

@@ -1,0 +1,154 @@
+
+2月20-2月26
+
+2月23
+    rails项目前五章(早上)
+    2. 后台课程建设中心功能总体查看(优先)
+
+
+2月24
+    1.部署中心后台功能总体查看(早上)
+    2. rails项目前5章(一天)
+
+
+1. bool类型参数要注意细节
+
+**************重点多看多练习
+2.  针对ActiveRecorde_Ralation类型select与where相互查询操作
+    如下:
+        报错写法
+            1. User.where("id < 50").select("is as user_id, lastname as name").where(" user_id > 50").first.user_id => select重命名字段where后会报错
+         正确写法
+            注意:看first后的区别
+            1. User.where("id < 50").select("id as user_id, lastname as name").where(" id > 1").first.user_id
+            2. User.where("id < 50").select("id, lastname as name").where(" id > 1").first.id
+
+        注意select where后在select =>不能select第一次select中重命名的字段名称 必须是表中的字段名称
+
+3.Array的作用
+
+**************重点多看多练习
+4.  ActiveRecord对象的修改痕迹追踪方法 =>
+    1. https://www.cnblogs.com/dajianshi/p/13967475.html
+
+**************重点多看多练习
+5.  使用sidekiq的队列地址
+    请求地址/sidekiq/retries
+    更多参考ActiveJob
+
+
+**************重点多看多练习
+6. Model层针对字段的校验方法写法文档
+    1. https://blog.csdn.net/weixin_34001430/article/details/89942299
+
+**************重点多看多练习
+7.后台课程建设中心功能
+    1. 请求中的request包含那些数据
+        request.remote_ip => ip地址  本地(127.0.0.1) 如果客户端使用proxy可能会出现多个地址
+        request.server_name => 请求的服务地址(应该是对应的是域名) 本地(0.0.0.0)
+        request.body.read (获取application/octet-stream格式请求的参数)I/O对象流  => https://www.jianshu.com/p/2d4be67c3400
+        request.session
+        request.headers
+        request.get? 判断是否get请求
+        request.method  获取请求方式
+        request.request_method 获取请求方式
+        request.methods  # request的方法吧
+        request.url  请求url
+        request.xml_http_request? # ajax请求返回 true 否则false
+        更多用法与字段参考地址
+        1. https://blog.csdn.net/f71610408/article/details/78758075
+        2. https://www.docin.com/p-600463351.html
+        3. https://blog.csdn.net/weixin_30617737/article/details/94816062
+        4. https://so.csdn.net/so/search?spm=1001.2101.3001.4498&q=rails%20request&t=&u=
+    2. 搜索框下清楚按钮
+        <button type="reset" class="btn btn-default">清除</button>
+
+
+    4. 弹出层的使用
+        1. 如何隐藏弹出层
+            1.index页面下 <%= render partial: 'admins/courses/shared/import_course_member_modal' %>
+            2. _import_course_member_modal.html.erb下 <div class="modal fade admin-import-course-member-modal" tabindex="-1" role="dialog" aria-hidden="true">所有代码</div>
+                class="modal fade admin-import-course-member-modal" 中 modal fade 前缀表示隐藏该div元素
+        2. 如何显示弹出层
+            1. javascript_void_link方法后 点击按钮触发js操作显示弹出层 没有请求后端接口 => 纯js填充数据
+                <%= javascript_void_link('弹出admin-import-course-member-modal', class: 'btn btn-primary', data: { toggle: 'modal', target: '.admin-import-course-member-modal' }) %>
+
+            2. 请求后端接口显示弹出层
+                remote: true(异步处理 js后缀接口)
+                    <%= link_to '部署信息', admins_local_deployment_path(local_deployment), remote: true, class: 'info_setting-action' %>
+                后端format=js跳转对应 js文件 显示弹出层数据
+                    $('.admin-modal-container').html("<%= j( render partial: 'admins/local_deployments/shared/setting_info', locals: {local_deployment: @current_local_deployment, deploy_files: @deploy_files } ) %>");
+                    $('.modal.admin-setting-info-modal').modal('show');
+        3. 纯js操作填充弹出层数据
+
+
+        4. 请求操作后端填充弹出层数据
+
+    5. link_to_if写法
+        if @current_user.nil? => true; 点击跳转/sessions/new并且不执行block操作  false; 执行block操作
+        <%= link_to_if(@current_user.nil?, "Login", { controller: "sessions", action: "new" }) do
+                       link_to(@current_user.login, { controller: "accounts", action: "show", id: @current_user })
+                    end
+        %>
+        源码
+        def link_to_if(condition, name, options = {}, html_options = {}, &block)
+                if condition
+                  link_to(name, options, html_options)
+                else
+                  if block_given?
+                    block.arity <= 1 ? capture(name, &block) : capture(name, options, html_options, &block)
+                  else
+                    ERB::Util.html_escape(name)
+                  end
+                end
+              end
+
+8. rails job perform_later(当前服务器空闲开启定时任务)  perform_now(立即开始定时任务)
+
+
+9. rails原生前端下 使用disabled后 搜索方法不传递该字段
+
+
+2. rails后台下使用自带form表单功能
+    增加<button>元素提交时候会 提交表单的url
+    方案一: <input type="button">
+    方案二: a标签 + 样式修改
+
+
+3.在model下定义enum后  如
+    enum kycx_type: { "其他"=> 1, "文本"=>2, "图片"=>3 , "视频"=>4, "音频"=>5 }
+    self.字段 => "文本"...
+
+    Attachment.kycx_types => { "其他"=> 1, "文本"=>2, "图片"=>3 , "视频"=>4, "音频"=>5 }
+
+
+Linux
+1. 查看服务器端日志  tail -f log/production.log
+
+Ruby
+
+
+1. try与respond_to?区别
+        try： Object.try(:method)   if Object.present? && Object有method方法 则执行 Object.method  else nil
+        respond_to?
+
+        、
+
+2. String => Module  container_class =  params[:container_type].classify.constantize
+
+
+
+Git
+
+1 git配置
+    $ git config --global user.name "Your Name"
+    $ git config --global user.email your.email@example.com
+
+
+
+Nosql
+1. rails redis操作
+
+	1. Rails.cache.wirte()  Rails.cache.read()
+
+	2. demo = Redis.new  https://www.coder.work/article/261575

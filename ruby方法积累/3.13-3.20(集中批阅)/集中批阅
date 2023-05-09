@@ -1,0 +1,54 @@
+Git
+1. 取消commit操作
+
+
+
+Rails代码总结:
+
+    1. question_type_hash = ExerciseQuestion::QUESTION_TYPE.invert
+
+    2.下列写法下 unscope  unscoped  携带过滤条件查询
+        1. 携带过滤条件 model层 default_scope(where{name: "xxx"}) 每次查询增加过滤条件, default_scoped(默认取消过滤条件)
+            Exercise.joins(:exercise_questions).last.exercise_questions
+            =>
+                SELECT  `exercises`.* FROM `exercises` INNER JOIN `exercise_questions` ON `exercise_questions`.`exercise_id` = `exercises`.`id` AND `exercise_questions`.`group_topic_id` = 0 WHERE `exercises`.`unused` = FALSE AND `exercises`.`deleted_at` IS NULL ORDER BY `exercises`.`id` DESC LIMIT 1
+                ExerciseQuestion Load (22.6ms)  SELECT  `exercise_questions`.* FROM `exercise_questions` WHERE `exercise_questions`.`exercise_id` = 11757 AND `exercise_questions`.`group_topic_id` = 0 LIMIT 11
+
+        2.  unscope 查询时，取消某一默认过滤条件 如: unscope(where: :group_topic_id)取消group_topic_id字段过滤
+            Exercise.joins(:exercise_questions).last.exercise_questions.unscope(where: :group_topic_id)
+            =>
+                SELECT  `exercises`.* FROM `exercises` INNER JOIN `exercise_questions` ON `exercise_questions`.`exercise_id` = `exercises`.`id` AND `exercise_questions`.`group_topic_id` = 0 WHERE `exercises`.`unused` = FALSE AND `exercises`.`deleted_at` IS NULL ORDER BY `exercises`.`id` DESC LIMIT 1
+                ExerciseQuestion Load (22.7ms)  SELECT  `exercise_questions`.* FROM `exercise_questions` WHERE `exercise_questions`.`exercise_id` = 11757 LIMIT 11
+
+        3. unscoped(取消是不过滤条件) => 如下: 取消所有条件查询
+            Exercise.joins(:exercise_questions).last.exercise_questions.unscoped
+            =>
+                SELECT  `exercises`.* FROM `exercises` INNER JOIN `exercise_questions` ON `exercise_questions`.`exercise_id` = `exercises`.`id` AND `exercise_questions`.`group_topic_id` = 0 WHERE `exercises`.`unused` = FALSE AND `exercises`.`deleted_at` IS NULL ORDER BY `exercises`.`id` DESC LIMIT 1
+                ExerciseQuestion Load (23.1ms)  SELECT  `exercise_questions`.* FROM `exercise_questions` LIMIT 11
+
+
+    3. 使用bulk_insert包下，批量插入，会跳过model回调方法(钩子方法) => 助教权限，批量创建所有课堂默认的助教权限
+
+
+    4. 事务模式下创建一系列主外键数据下，优先主数据save后，通过主数据来创建外数据，内嵌方法下，取消主外检关联写法，需要实时传递主数据，
+       => 原因: 事务情况下;先确保事务正常通过的情况后，数据入库，而直接使用关联写法，实际上是从表中找关联数据，实时上，并未存在，因此会导致后续一系列的nil报错
+
+    5. self.exercise_appraise_alloters.joins(:exercise_appraise_teachers).exists?(exercise_appraise_teachers: {teacher_id: user.id} )
+
+    6. optional: true => 修改必填项为选填项
+
+
+    #多看
+    7. delete_all(delete) destroy_all(destroy)
+     has_many :pets # dependent: :nullify option by default => 默认删除下为null
+    动作上:
+        delete_all;一条sql删除所有数据 比如; delete from tables where id > 0;
+        destroy_all;一条一条删除。比如：循环执行 delete from tables where id = 1; delete from tables where id = 2.....
+    状态上:
+        delete_all; 直接删除，不执行任何回调与业务逻辑
+        destroy_all; 通过要删除的主数据，找到所有外数据，通过dependent类型，对外数据进行操作(destroy删除，设置null，delete删除)
+            因此又进入第一个主数据下外数据的删除操作，如果当前外数据存在外数据，便重复执行操作
+
+    参考链接:
+        1.https://blog.csdn.net/axu_air/article/details/78403720
+        2.https://www.cnblogs.com/hello-ruby/p/15189209.html

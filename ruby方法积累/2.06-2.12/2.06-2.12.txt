@@ -1,0 +1,44 @@
+rails
+1. exercise.rb文件下  include ScheduleJobUtil模块下 => 该模块应该是所有定时任务模块，统一将所有定时任务写在一个model下(写法与实现逻辑值得学习)
+    job = TASK_TYPE_JOB.stringify_keys[task_type].set(wait_until: execute_time).perform_later(self.id)注意写里面方法与写法
+
+2. dev_local_exercise分支下 git_server.rb文件批量定义方法写法
+
+3. dev_local_exercise分支下 examination_banks_controller下index等方式 自定义排序的写法 解决
+
+4. rails instance_variable_set用法 (结合3）
+
+7. rails Mailer功能要重新复习一下(CustomRailsDemo)
+
+8. rails一个完整的请求过程(从请求开始到response)(结合9一起看)
+
+9. rails下route原理(ActiveDispatch机制)
+    1. https://blog.csdn.net/meladet/article/details/83427779
+    2. https://blog.csdn.net/rocky_j2ee/article/details/3935201
+    3. https://www.codenong.com/4db1abfc7a753b64dfa8/
+    4. https://ruby-china.org/topics/34110
+
+
+10. rails下 test production development三种环境的切换与区别
+    切换production环境 对应table 静态资源设置 =>:
+        https://my.oschina.net/u/3853452/blog/5558266
+        https://www.likecs.com/ask-6159359.html
+        https://www.cnblogs.com/tardis/p/4037882.html
+    切换production下 设置secret_base_key方案链接 =>:
+        https://blog.csdn.net/qq761789003/article/details/121775095
+
+12. Rails下Time类的change方法并不是ruby方法 => Tim.now.change(sec: 22, hour: 11, min: 22)  => 根据当前时间修改得到所需要的时间
+
+
+13 object.object_id => 查看当前对象在内存的地址
+
+ruby
+5. def sort_columns(*columns) => columns可接受所有类型
+
+11. Array.shuffle 将 Old Array顺序打乱
+
+
+Git
+
+6.  强制覆盖本地版本代码(同步线上最新版本)
+    https://blog.csdn.net/Jie1104/article/details/127898878

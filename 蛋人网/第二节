@@ -1,0 +1,75 @@
+1. 按照Gem
+      # css框架库
+      gem 'bootstrap-sass'
+
+      # 图标库
+      gem 'font-awesome-sass'
+
+      # 用户管理工具gem(轻量级)  devise(重量级)
+      gem 'sorcery'
+
+
+2. 引入上面Gem的js与css配置
+    1. assets/stylesheets下application.css改为 application.scss
+       同时增加代码：
+                //bootstrap-sass
+                @import "bootstrap-sprockets";
+                @import "bootstrap";
+
+                //font_awesome
+                @import "font-awesome";
+    2. assets/javascripts/application.js
+        增加代码：
+                //= require bootstrap-sprockets
+
+
+3. sorcery用户管理Gem的使用
+    1. rails g -h => 查看所有可以调用的生成器
+        如有:
+            rails g sorcery:install
+
+    2. rails g sorcery:install -h => 查看 sorcery的使用
+            Usage:
+              rails generate sorcery:install [submodules] [options]
+
+            Options:
+              [--skip-namespace], [--no-skip-namespace]                    # Skip namespace (affects only isolated applications)
+              [--model=model]                                              # Specify the model class name if you will use anything other than 'User'
+              [--migrations=migrations], [--no-migrations]                 # [DEPRECATED] Please use --only-submodules option instead
+              [--only-submodules=only-submodules], [--no-only-submodules]  # Specify if you want to add submodules to an existing model
+                             # (will generate migrations files, and add submodules to config file)
+
+            Runtime options:
+              -f, [--force]                    # Overwrite files that already exist
+              -p, [--pretend], [--no-pretend]  # Run but do not make any changes
+              -q, [--quiet], [--no-quiet]      # Suppress status output
+              -s, [--skip], [--no-skip]        # Skip files that already exist
+
+            Description:
+              Generates the necessary files to get you up and running with Sorcery gem
+
+            Examples:
+              rails generate sorcery:install
+
+                This will generate the core migration file, the initializer file and the 'User' model class.
+
+              rails generate sorcery:install remember_me reset_password
+
+                This will generate the migrations files for remember_me and reset_password submodules
+                and will create the initializer file (and add submodules to it), and create the 'User' model class.
+
+              rails generate sorcery:install --model Person
+
+                This will generate the core migration file, the initializer and change the model class
+                (in the initializer and migration files) to the class 'Person' (and it's pluralized version, 'people')
+
+              rails generate sorcery:install http_basic_auth external remember_me --only-submodules
+
+                This will generate only the migration files for the specified submodules and will
+                add them to the initializer file.
+
+
+# 多看
+3. rails g sorcery:install  根据上方参考文档 生成对应的文件 ( 重复执行会自动根据配置设置文件 )
+
+

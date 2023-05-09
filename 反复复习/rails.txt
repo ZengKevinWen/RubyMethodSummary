@@ -1,0 +1,79 @@
+
+5月
+
+1. 批量更新百万级千万级的数据(不是本质上解决的方法)
+       1. find_each find_in_batches
+       2. 使用update_column字段更新 跳过 回调与校验
+       3. 可以将需要的数据拼接成为string类型 然后一条mysql执行 (感觉这个不一定ok)
+       StudentWork.find_each(batch_size: 10000,start: 10) do |work|
+             # update_column 方法取消校验与回调
+             work.update_column(:unadjusted_score, work.work_score)
+           end
+
+2. rails ActiveRecord下回调
+ https://doc.bccnsoft.com/docs/rails-guides-4.1-cn/active_record_callbacks.html
+
+
+3 git配置
+    $ git config --global user.name "Your Name"
+    $ git config --global user.email your.email@example.com
+
+
+
+
+3. rails enum特性
+    1. https://ruby-china.org/topics/28654
+
+
+
+4. rails + vue初始化搭建
+今年
+
+1. 争取吧数据库工程师资格证书考了
+
+2. 台式必买
+
+
+3.ruby rails 书籍
+
+4. 升本考了
+
+5. 前后端项搭建登录功能吧(估计至少都得后半年才有时间)
+
+6. 实现用户文件夹功能
+
+
+7. 针对已经存在树状结构表，使用closure_tree下，需要将表之前的树状结构存入虚拟表中，写法如下:
+    文件: dev_aliyun 20230414022214_change_parent_id_default_to_iteam_banks_group.rb
+    class ChangeParentIdDefaultToIteamBanksGroup < ActiveRecord::Migration[5.2]
+      def change
+        change_column_default(:item_banks_groups, :parent_id, from: 0, to: nil)
+
+        ItemBanksGroup.where(parent_id: 0).update_all(parent_id: nil)
+
+        # 生成item_banks_groups_hierarchies记录
+        ItemBanksGroup.rebuild!
+      end
+    end
+
+
+
+
+开启服务： 1.启动Rails Web Server(如webrick)
+
+发送请求： 2.客户端发出HTTP请求
+
+请求先经过哪里： 3.Rails经过rack和ActionDispatch模块
+
+经过那些类： 4.ActionDispath::Request; 5.ActionDispath::Router; 6.ActionController::Base
+
+产生那些对象： 7.Rack::Request; 8.Action::Dispatch Requestfragment; 9.Action::Dispatch Requestruntime; 10.Action::Dispatch Requestparamters; 11.ActionController::RequestForgeryProtection; 12.ActionController::Parameter; 13.ActionController::Cookies; 14.ActionController::Filters;
+
+如何进行跳转： 15.Ract::Router实例负责根据匹配的路由去定位Controller的操作Action.
+
+有那些中间接： 16.ActionController根据请求参数Patch码实例化ActiveModel实体 17.在ActionController中激活对应的控制器并处理请求，调用Model从数据库查询数据，把Model封装成view（actionView） 18.ActionView就根据erb语法把数据在页面上展示 19.Rack实例把数据包装成响应封装给客户端 20.客户端得到响应
+
+
+6月
+
+1. 实现用户文件夹功能

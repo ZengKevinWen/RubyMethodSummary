@@ -1,0 +1,106 @@
+1.结合12.11-12.18内容一起写
+
+
+
+
+
+rails
+1. get方法 携带query方式携带数值类型 在后台只会获取数组最后一条数据！！！！  在rails内置前端下 name="demo[]" 这样写可以携带数组
+2.Apifox下一样 query参数 设定array类型与字段名称name[]
+
+
+
+
+
+(1.3-1.8)
+
+
+rails
+1. 使用 gon Gem时 html页面到导入 <%= Gon::Base.render_data%> <%= Gon::Base.render_data %>
+
+2. Started GET "/api/stage_shixuns/12043/edit.json?id=120431" for ::1 at 2023-01-04 15:34:52 +0800 当前请求下 params[:id] => 12043而不是120431
+
+
+4. take first区别
+    json.shixun_id homework.shixuns.take.try(:id)   take => limit(1)
+    json.is_jupyter homework.shixuns.first.is_jupyter  first => 数组取第一个
+
+
+(1.9-2.05)
+ruby
+
+rails
+ 1. course.rb文件下 写法
+     has_many :course_members, dependent: :destroy
+     has_many :students, -> { course_students }, class_name: 'CourseMember'
+     注意写法 course.students => 在关联course_members的基础上调用 course_members表下的 course_students(scope方法)  同时注意写法
+     has_many :teacher_course_members, -> { teachers_and_admin }, class_name: 'CourseMember'
+     has_many :teacher_users, through: :teacher_course_members, source: :user
+     这个写法有点牛逼 => course.teacher_users =
+        SELECT  `courses`.* FROM `courses` ORDER BY `courses`.`id` DESC LIMIT 1
+        SELECT  `users`.* FROM `users` INNER JOIN `course_members` ON `users`.`id` = `course_members`.`user_id` WHERE `course_members`.`course_id` = 17464 AND `course_members`.`role` IN (1, 2, 3) LIMIT 11
+        增加source: :user选项后 实际查出course_members表的数据 会变为 user表的数据
+ 2. lambda与scope结合写法 如exercise_group_setting.rb
+    scope :find_in_exercise_group, lambda { |name,ids| where("#{name}": ids)}
+
+
+ 4. aliyun_oss_init.rb文件下  config = Rails.application.config_for(:configuration) 这个写法应该是拿 configuration配置的数据
+
+
+ 5. 教学课堂试题统计 render json: ([{},{},{}]  或者 {} ) => 还可以这也render 以前没发现-
+
+ 6. dev_local_v7_zhongnan分支下 courses_controller.rb/question_marking接口 mysql写法
+
+ 7. 导出 xlsx格式 使用用法 可以render写法应该是 axlsx_rails  => courses_controller.rb下的 question_making接口 下render xlsx格式
+    gem 'axlsx', '~> 3.0.0.pre'
+    gem 'axlsx_rails', '~> 0.5.2'
+
+ 8. CGI::escape("中文.xls") <=>  CGI::unescape("%BB%B%b.xls")  rubys 下 CGI还可以对 html页面操作
+
+ 9. git rm --cached 文件(从git缓存中 删除已经add的文件)  git rm --f 文件(删除git缓存中的文件 并物理删除)
+    git clean -n (查看未add的新文件) git clean -f 文件(强制删除未add的文件)
+
+ 10. https://blog.csdn.net/weixin_30482027/article/details/114326918 解决 表格无法输入中文问题
+
+
+ 12 后端服务器地址/sidekiq/retries查看当前服务器定时任务情况
+
+ 13 请求中参数转码注意事项 => 9共同解决
+    apifox发送请求时 会将query字段进行转码 rails在接受请求会将参数进行解码
+    转码 CGI::escape(参数)
+    解码 CGI::unescape(参数)
+    请求时字段下包含中文与++等特殊符号的字段数据 前端一定需要转码将 中文与符号转为 %2B%2B等格式 后端params会自动进行解码处理
+
+ 17. dev_local_exercise分支下 challenge.rb下 include Timeable模块可以参考参考 => 要extend ActiveSupport::Concern后才可以该写法(原理就是 ruby进阶中视频)
+
+ 18. dev_local_exercise分支下 学生端 students/exercises_controller下 index方法 下面查询中references的作用 后面 按照order("exercises.publish_time")排序的前提都是 references方法
+
+ 19. paginate方法(concerns/paginate_helper)  书写规范与如何实现与kaminari包的使用
+
+ 20. 继承19上 加强kaminari包(对数组与Class::ActiveRecord_Relation类)的分页的使用
+
+ 21. dev_local_exercise分支下
+     ExerciseShixunChallenge.where(exercise_question_id: 235350).includes(:challenge).group("exercise_question_id")
+        => #<ActiveRecord::Relation [#<ExerciseShixunChallenge id: 10979, challenge_id: 61109, shixun_id: 22244, exercise_question_id: 235350, question_score: #<BigDecimal:564291c66630,'0.5E1',9(18)>, position: 1, created_at: "2022-07-06 03:30:36", updated_at: "2022-07-06 03:30:36">]>
+     ExerciseShixunChallenge.where(exercise_question_id: 235350).includes(:challenge).group_by{|d| d.exercise_question_id}
+        =>  {235350=>[#<ExerciseShixunChallenge id: 10979, challenge_id: 61109, shixun_id: 22244, exercise_question_id: 235350, question_score: #<BigDecimal:56428e7024a8,'0.5E1',9(18)>, position: 1, created_at: "2022-07-06 03:30:36", updated_at: "2022-07-06 03:30:36">]}
+     前者是在mysql基础上分组 后者转化Hash类型再进行分组
+
+
+ 23. rails后台下 在rails自带的表单中使用原生button
+    如下:
+        会先触发button对应的监控的操作 再接会调用表单的url
+        <button id="upload_custom" value="点击提交会触发对应事件与表单的提交">
+    如果只需触发button对应的操作不需要触发表单的url提交;
+        方案一: <input type="button"> 改为input写法
+        方案二: a标签 + 样式修改(搜索 a标签css变为按钮样式)
+
+ 24. rails后台上传文件限定类型 => 查看google文件夹 rails front下file上传可接受的类型OR csdn下rails front的收藏
+
+
+  16号 1 2 4 5 解决
+  1月30-31号 7 8 9 10 13 解决
+  2月1号  6(多看)  12 19 解决
+  2月2 20 解决
+  2月3 24 23 17 解决
+  2月4 25 16

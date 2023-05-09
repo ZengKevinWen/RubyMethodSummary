@@ -1,0 +1,8 @@
+1. save 与 save!区别   前者保存成功true 失败为null  后者保存成功true失败抛出异常
+    https://www.cnblogs.com/yanmiao/archive/2012/05/15/2501318.html
+
+
+2.  ActiveModel内置 ActiveModel::Dirty模块(跟中对象变化模块)
+    https://www.wenjiangs.com/doc/ieoblu6nkl
+    https://www.jianshu.com/p/c715ba65b8d9
+    https://api.rubyonrails.org/v5.1.1/ 搜索 ActiveModel::Dirty

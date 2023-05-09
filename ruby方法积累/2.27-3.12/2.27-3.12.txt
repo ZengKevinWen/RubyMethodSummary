@@ -1,0 +1,125 @@
+2月27-3月5
+
+1. find_each 与 find_in_batches区别
+    1. https://blog.csdn.net/hexudong08/article/details/7642856
+    2. https://www.vicw.com/groups/code_monkey/topics/158
+        => each_slice(针对array安指定个数批量切割)
+
+
+2. User(Model)下 reorder操作 ====>  Model.reorder(batch_order desc).limit(batch_size)  || User.where("id <100").reorder("2 desc, 3 asc")
+    如:  SELECT  `users`.* FROM `users` WHERE (id < 100) ORDER BY 2 desc, 3 ASC LIMIT 5
+         => SELECT  `users`.* FROM `users` WHERE (id < 100) ORDER BY 2 desc, 3 asc  LIMIT 5
+            reorder 在User.where("id < 100").all上按照users列中第二个字段降序，第三个字段升序，进行排序在取五条 => 规则是mysql规则 reorder只是rails中的写法
+         => https://blog.csdn.net/m0_46093829/article/details/117296242
+
+3.
+
+**************重点多看多练习
+6. admins/users列表查看用户详情 => users表单下使用了user_extension中的字段 (难点先学会理解容易的写法)
+   原因:
+   Class下delegate方法
+   问题1
+   rails下 使用delegate方法
+   1. 满足关联表has_many等关联
+   2. 好像只能是外键可以使用如 一对一 一对多 多对多中；只有一对一任何一方可以使用； 一对多下多的一方可以使用
+   =>   一对多
+        JobModel 多(可以使用)
+          belongs_to :user
+          delegate :lastname, to: :user, allow_nil: true
+
+          => Job.first.lastname => Job.last.user.lastname => "kevin"
+
+
+        UserModel 一(不能使用 可能是写法不对)
+
+           has_many :jobs
+           delegate :company, to: :jobs, allow_nil: true
+
+           => User.first.company => 报错(查询对了 还是报错 感觉应该可以实现 一对多中一的实现 只是写法不对)
+            SELECT  `users`.* FROM `users` ORDER BY `users`.`id` ASC LIMIT 1
+            SELECT  `jobs`.* FROM `jobs` WHERE `jobs`.`state` != 'deleted' AND `jobs`.`user_id` = 1 LIMIT 11
+   =>   一对一
+        has_one :user_extension, dependent: :destroy
+        delegate :staff_id, :gender, :department_id, :school_id, :location, to: :user_extension, allow_nil: true(允许 当前user对应的user_extension为null)
+
+        User.last.staff_id => User.last.user_extension.staff_id => "asdasdasd1231"
+
+    =>  多对多没有测试
+
+   问题2
+   ///////////////////////针对下列问题    一直不清楚原理 不清楚为什么
+   delegate委派必须是一个公开的方法或者类或者本身的类变量与类常量  => 不能是本身的实例变量
+   如:
+       委派本身类的instance变量
+       class Foo
+         def initialize(bar)
+           @bar = bar
+         end
+
+         delegate :name, to: :@bar, allow_nil: true
+       end
+
+       Foo.new("Bar").name # raises NoMethodError: undefined method `name' => The target method must be public, otherwise it will raise NoMethodError.
+   如:
+       委派本身class的类常量与类变量
+       class Foo
+         CONSTANT_ARRAY = [0,1,2,3]
+         @@class_array  = [4,5,6,7]
+
+         def initialize
+           @instance_array = [8,9,10,11]
+         end
+         delegate :sum, to: :CONSTANT_ARRAY
+         delegate :min, to: :@@class_array
+         delegate :max, to: :@instance_array
+       end
+
+       Foo.new.sum # => 6
+       Foo.new.min # => 4
+       Foo.new.max # => 11
+
+
+7. js实现字段校验写法(users/edit.js)
+    assets下 使用simple_for_from下如何校验字段
+    自定义validator方法 校验字段写法
+
+
+8. 用户详情页面 extension.assign_attributes(user_extension_attributes)
+    include ActiveModel::AttributeAssignment(要先 include)
+    instance.assign_attributes(Hash) => 统一赋值的意思  减少赋值操作 =>  demo.name1 = 1 demo.name2 = 2 demo.assigin_attributes({name1: 123, name2: 123})
+
+
+
+5. number_with_precision方法对数值四舍五入操作
+    默认保留三位小数
+    number_with_precision(111.2345)                                         # => 111.235
+    number_with_precision(111.2345, precision: 2)                           # => 111.23
+
+
+6. rails下  update update_all update_column update_attribute的区别
+    validate(校验字段)；包括字段校验等
+    rollback(回调方法); 回调方法可以在 ActiveRecord 对象创建、保存、更新、删除、验证或从数据库中读出时执行
+        1.https://doc.bccnsoft.com/docs/rails-guides-4.1-cn/active_record_callbacks.html
+    update(执行validates与rollback)
+    update_all(批量跳过 validate与rollback)
+    update_column(跳过 validate与rollback)
+    update_attribute(跳过validate 执行rollback)
+    1.https://blog.csdn.net/qwbtc/article/details/51306467
+    2. 注意 update_column写法 work.update_column(:unadjusted_score, work.work_score)
+
+7. truncate,text_area_tag与simple_format rails后端内置的html方法
+    rails文档中查看使用
+
+8. rails redis操作
+
+	1. Rails.cache.wirte()  Rails.cache.read() => 存入redis中数据像加密一样
+
+	2. demo = Redis.new  https://www.coder.work/article/261575  正常存入
+
+
+
+
+
+3月6-3月12
+
+

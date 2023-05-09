@@ -1,0 +1,9 @@
+rails
+
+1. 猜测: 缺少tag_discipline_ids参数时，会默认[]
+    def form_params
+       params.permit(:discipline_id,tag_discipline_ids: [], choices: %i[choice_text is_answer], standard_answers: [:position, :answer_text => []], :sub_item_banks => [:item_type, :name, :id, :analysis, choices: %i[choice_text is_answer]])
+    end
+
+
+2。 共享文件夹

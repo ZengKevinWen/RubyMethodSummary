@@ -1,0 +1,45 @@
+
+rails
+
+1. rails model删除关联
+
+    #多看
+        7. delete_all(delete) destroy_all(destroy)
+         has_many :pets # dependent: :nullify option by default => 默认删除下为null
+        动作上:
+            delete_all;一条sql删除所有数据 比如; delete from tables where id > 0;
+            destroy_all;一条一条删除。比如：循环执行 delete from tables where id = 1; delete from tables where id = 2.....
+        状态上:
+            delete_all; 直接删除，不执行任何回调与业务逻辑
+            destroy_all; 通过要删除的主数据，找到所有外数据，通过dependent类型，对外数据进行操作(destroy删除，设置null，delete删除)
+                因此又进入第一个主数据下外数据的删除操作，如果当前外数据存在外数据，便重复执行操作
+
+        参考链接:
+            1.https://blog.csdn.net/axu_air/article/details/78403720
+            2.https://www.cnblogs.com/hello-ruby/p/15189209.html
+
+
+1. RailsMailer操作(详细操作)
+
+2. RailsJob(详细操作)
+
+# 重点; 做后台不用第三方框架下 ManageBackHelper模块下的方法很有用
+3. ManageBackHelper模块(后台数据填充演示模块)
+        1. overflow_hidden_span
+            <td class="text-left">
+                  <%= link_to "#{@remote}/users/#{user.login}/classrooms", target: '_blank' do %>
+                    <%= overflow_hidden_span user.real_name, width: 120 %>
+                  <% end %>
+            </td>
+
+            def overflow_hidden_span(text, width: 300, placement: nil)
+                opts = { class: 'd-inline-block text-truncate', style: "max-width: #{width}px" }
+                opts.merge!('data-toggle': 'tooltip', title: text) if text != '--'
+                opts.merge!('data-placement': placement) if placement
+
+                content_tag(:span, text&.truncate(10), opts)
+            end
+        2. sort_tag方法
+        3. content_tag方法
+
+
