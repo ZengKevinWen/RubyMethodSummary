@@ -1,0 +1,19 @@
+
+1. subjects,stages,stages_shixun 对标 courses,course_stages,course_stage_shixuns
+    实践课程(subjects)
+    主章节(stages)
+    主章节下资源(stages_shixun) => item_id与item_type判断 实训,视频,附件  => 同parent_id找到父类
+
+
+
+    教学课堂(courses)
+    在线学习主章节(course_stages)
+    主章节下资源(stages_shixun) => item_id与item_type判断 实训,视频,附件  => 同parent_id找到父类
+
+    对标
+    subjects  <=>  courses
+
+    stages  <=> course_stages
+
+    stage_shixuns <=> course_stage_shixuns
+

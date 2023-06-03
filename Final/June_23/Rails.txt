@@ -1,6 +1,5 @@
-
-上月待完成:
-    1. 完成May_23未完成的任务
+Base
+   1. 完成May_23未完成的任务
 
 
 1. 健壮参数中携带Array类型
@@ -23,19 +22,20 @@
    3.job_item.rb表下重写了 destroy方法 可以学习
 
 5. 自定义validate类校验字段
-   1.Users::UpdateAccountForm类写法结合 users/accounts_controller下update方法结合可能详细查看一下(可以当做一个模块使用)
-   2.course_second_categories.rb 下 校验name字段 多个字段的唯一写法
+    1.Users::UpdateAccountForm类写法结合 users/accounts_controller下update方法结合可能详细查看一下(可以当做一个模块使用)
+    2.course_second_categories.rb 下 校验name字段 多个字段的唯一写法
 
 
 6. 科大实验室
-   1.
-   Reservation.last.reservation_time_specifications => 通过某条reservation找到reservation_time_specifications，并且查的是reservation_time_specifications数据
-   如下:
+    1.
+    Reservation.last.reservation_time_specifications => 通过某条reservation找到reservation_time_specifications，并且查的是reservation_time_specifications数据
+    如下:
     	SELECT  `reservations`.* FROM `reservations` ORDER BY `reservations`.`id` DESC LIMIT 1
     	SELECT  `reservation_time_specifications`.* FROM `reservation_time_specifications` INNER JOIN `reservation_times` ON `reservation_time_specifications`.`id` = `reservation_times`.`reservation_time_specification_id` WHERE `reservation_times`.`reservation_id` = 44 LIMIT 11
-   所以 Reservation.last.reservation_time_specifications.order("reservations.id desc") 报错！！！
+    所以 Reservation.last.reservation_time_specifications.order("reservations.id desc") 报错！！！
 
-   2.
-   Reservation.joins(:reservation_times_specifications).order("reservations.id desc")
-   默认查出的是 reservation表的数据
+    2.
+    Reservation.joins(:reservation_times_specifications).order("reservations.id desc") ok
+
+    默认查出的是 reservation表的数据
 
