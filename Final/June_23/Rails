@@ -39,3 +39,52 @@
    Reservation.joins(:reservation_times_specifications).order("reservations.id desc")
    默认查出的是 reservation表的数据
 
+7(√). rails结合field使用
+    value =  EduSetting.get("subject_index_sort").to_s => "1,3,5,7,892,34"
+    # 下面操作
+    value.blank? ? return : "FIELD(subjects.id, #{value} ,subjects.id) asc"
+
+8. mysql order(https://blog.csdn.net/Ajekseg/article/details/126036613)
+    1.安表中多字段排序: "order by name desc, id asc" =>数据出现相同name情况下，在按照id顺序排列(https://blog.csdn.net/weixin_47702737/article/details/121754963)
+
+    2. case when用法(https://blog.csdn.net/A_Runner/article/details/103136846)
+        SELECT
+            id,
+            visits,
+            hidden,
+            CONCAT( id, visits, hidden ) test,
+            CONCAT( id, visits ) num,
+            IF(visits > 10000, 0,1) visitses
+        FROM
+            subjects
+        ORDER BY
+        visitses  desc
+
+    3. field用法
+        1. 默认用法(https://blog.csdn.net/han_cui/article/details/106219405) => 默认用法有坑: FIELD(name,"kevin","alice") asc  =>将未匹配的kevin与alice放在最前面 匹配到的kevin与alice按照str顺序排序
+
+        2. 	SELECT id, visits, hidden FROM subjects ORDER BY FIELD(id, 6,19,33, id)  => 优先排序6,19,33数据
+            =>  SELECT id, visits, hidden FROM subjects ORDER BY FIELD(id, 6,19,id, 33) => 注意: id只能替换最后一个str，如id后还有str，则id后的str无效,将不会匹配排序
+
+        3. 	认真仔细查看
+            SELECT
+                id,
+                visits,
+                hidden,
+                status,
+                FIELD(hidden, 0,1,2) now_hidden,
+                FIELD(status, 2,0,1) now_hidden
+             FROM
+                subjects
+             ORDER BY
+             FIELD(hidden, 0,1,2) asc , FIELD(status, 2,0,1) asc , FIELD(visits, 60, visits);
+
+        4. FIELD函数根本用法(https://www.moonapi.com/news/26842.html),结合case when用法理解就能明白field用法中1,2,3案列的原理
+
+    4. locate用法
+
+
+    5. lnstr用法
+
+    6. 利用数据字典实现自定义排序
+

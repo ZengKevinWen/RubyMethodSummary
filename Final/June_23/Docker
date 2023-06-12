@@ -1,0 +1,3 @@
+1.   container内无法ping外网(没有网络)
+    => https://www.php.cn/faq/521590.html
+       https://blog.csdn.net/qq_34777982/article/details/128145008
