@@ -20,7 +20,7 @@
 4. 定时任务 JobItems表 ScheduleJobUtil HomeworkCommon表的结合使用
    1. ScheduleJobUtil模块 job_items表 结合定时任  并且定时任务执行后能否删除  当前时间大于指定任务的执行数据，定时任务会不会执行
    2.(包括定时任务) => 当定时任务的时间为false或者 true时，会直接执行  2.当定时任务已执行后，是无法删除的(应该是的)
-   3.job_item.rb表下重写了 destroy方法 可以学习
+   3.job_item.rb表下重写了 destroy方法  freeze 学习
 
 5. 自定义validate类校验字段
    1.Users::UpdateAccountForm类写法结合 users/accounts_controller下update方法结合可能详细查看一下(可以当做一个模块使用)
@@ -39,3 +39,15 @@
    Reservation.joins(:reservation_times_specifications).order("reservations.id desc")
    默认查出的是 reservation表的数据
 
+7. 非必要情况下，不要在model回滚中做判断(因为有些查询会先update操作之后，再次查询，这样会导致需要的真实数据已过滤)
+    1. 定义form表单类过滤
+        => users/accounts_controller下 update方法   Users::UpdateAccountForm.new(params.merge(user: user))
+        => homework_commons_controller下 publish_setting   HomeworkCommons::PublishSettingForm.new({homework: @homework, params: params}).validate!
+         Form类下都会引入 include ActiveModel::Model => 感觉在new的时候会自动执行 validates方法 ，同时 实列的demo后 demo.validate会执行 validate匹配的方法
+
+ 8. get请求下 的boolean类型尽量 转化一下  status = params[:boolean].to_s == "true" ? true:false
+
+
+ 9. 查阅guides，区别 create，update，destroy执后的回调
+    1. 使用before_destroy回调方法中使用raise无效 且在update create方法下使用 after_create或after_update使用raise会直接进行rollback => 有么有可能是前者没有在事务下，后者是在事务下
+    2. 基于第二点在devices_controller下 调整设备上下架时，回调的update方法中如果抛出异常，会对数据进行回滚，但是采用destroy方法好像都不会进行回滚，=> 要查看rails ActiveRecord中的回调机制

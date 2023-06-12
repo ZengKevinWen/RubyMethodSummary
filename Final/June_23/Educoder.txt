@@ -17,3 +17,10 @@
 
     stage_shixuns <=> course_stage_shixuns
 
+
+
+2. course_videos(课程下视频)  watch_course_video(用户观看视频总记录表)  watch_video_histories(用户观看视频历史记录表)
+
+   watch_course_video =>  total_duration(总实际观看时长) point(最后一次观看时长) end_time(记录最后一次观看记录) duration(视频总时长)
+
+   watch_video_histories =>  total_duration(单次实际观看时长)  last_point(最后) start_time(开始时间) watch_course_video(进度条时长)

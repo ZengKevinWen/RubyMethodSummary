@@ -1,1 +1,5 @@
 1. 完成May_23未完成的任务
+
+2. git 443错误  => https://blog.csdn.net/m0_64007201/article/details/129628363(本机代理端口与git端口不一致)
+
+3. git checkout -b demo origin/demo => 本地不存在demo(远程存在dmeo分支)下才成功
