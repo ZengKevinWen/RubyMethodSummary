@@ -1,1 +1,7 @@
 1. 完成May_23未完成的任务
+
+
+1. git强制同步远程分支
+    git reset --hard origin/xxx分支
+
+2. git commit 的版本下，在reset后，还能通过版本号结合cherry-pick指定合并

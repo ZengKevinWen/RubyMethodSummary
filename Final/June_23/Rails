@@ -3,31 +3,31 @@
     1. 完成May_23未完成的任务
 
 
-1. 健壮参数中携带Array类型
+1(√). 健壮参数中携带Array类型
     demo_array = ["1","2","3"]
 
     def test_array_params
         require(:demo).permit(:name, :description, demo_array: ["1","2"])  =>  当params中不存在demo_array参数下， test_array_params默认["1","2"] 并且想传递array类型必须按照这个格式
     end
 
-2. 自定义Class增加 自定义Error =>  BatchPublishService模块下增加Error
+2(√). 自定义Class增加 自定义Error =>  BatchPublishService模块下增加Error
+    如:
+    class Demo::CustomerClass < ApplicationCustomerService
+        CustomerError = Class.new(StandardError(rails自带的error类))
 
-    给自定义的 ServiceClass || FinderClass || QueryClass 增加Error => Videos:: = Class.new(StandardError)
+        def raise_error
+            raise CustomerError.new("调用该方法抛出异常") => 会弹出 Demo::CustomerClass::CustomerError异常类，在rescue中应该用Exception或Demo::CustomerClass::CustomerError来捕获(应该是的，还未测试)
+        end
 
-3. ActiveModel下 class_name与source的用法
+    end
+
+    给自定义的 ServiceClass(创建数据) || FinderClass(列表查询) || QueryClass(列表查询) || FormClass(校验参数) 增加Error = Class.new(StandardError)
+
+3(√). ActiveModel下 class_name与source的用法 --- 多次重复看，就知道其中的用法了
        https://www.thinbug.com/q/33852811
 
-4. 定时任务 JobItems表 ScheduleJobUtil HomeworkCommon表的结合使用
-   1. ScheduleJobUtil模块 job_items表 结合定时任  并且定时任务执行后能否删除  当前时间大于指定任务的执行数据，定时任务会不会执行
-   2.(包括定时任务) => 当定时任务的时间为false或者 true时，会直接执行  2.当定时任务已执行后，是无法删除的(应该是的)
-   3.job_item.rb表下重写了 destroy方法 可以学习
 
-5. 自定义validate类校验字段
-   1.Users::UpdateAccountForm类写法结合 users/accounts_controller下update方法结合可能详细查看一下(可以当做一个模块使用)
-   2.course_second_categories.rb 下 校验name字段 多个字段的唯一写法
-
-
-6. 科大实验室
+6(√). 科大实验室
    1.
    Reservation.last.reservation_time_specifications => 通过某条reservation找到reservation_time_specifications，并且查的是reservation_time_specifications数据
    如下:
@@ -44,7 +44,7 @@
     # 下面操作
     value.blank? ? return : "FIELD(subjects.id, #{value} ,subjects.id) asc"
 
-8. mysql order(https://blog.csdn.net/Ajekseg/article/details/126036613)
+8(√). mysql order(https://blog.csdn.net/Ajekseg/article/details/126036613)
     1.安表中多字段排序: "order by name desc, id asc" =>数据出现相同name情况下，在按照id顺序排列(https://blog.csdn.net/weixin_47702737/article/details/121754963)
 
     2. case when用法(https://blog.csdn.net/A_Runner/article/details/103136846)
@@ -57,34 +57,80 @@
             IF(visits > 10000, 0,1) visitses
         FROM
             subjects
-        ORDER BY
-        visitses  desc
+        where IF(visits > 10000, 0,1) > -1 ORDER BY visitses desc
+        1.  # 在没有group by下的mysql中as方法创建的虚拟参数不能结合where使用，必须使用原表达式才可以，而可以结合order by的使用
+        2.  # 在group by后 可以使用过having方法结合as产生的虚拟参数使用
 
     3. field用法
-        1. 默认用法(https://blog.csdn.net/han_cui/article/details/106219405) => 默认用法有坑: FIELD(name,"kevin","alice") asc  =>将未匹配的kevin与alice放在最前面 匹配到的kevin与alice按照str顺序排序
+        1. 默认用法(https://blog.csdn.net/han_cui/article/details/106219405) => 默认用法有坑: FIELD(name,"kevin","alice") asc  =>将未匹配的kevin与alice放在最前面(因为未匹配到的参数按照索引0返回，排序时优先0) 匹配到的kevin与alice按照str顺序排序
 
         2. 	SELECT id, visits, hidden FROM subjects ORDER BY FIELD(id, 6,19,33, id)  => 优先排序6,19,33数据
             =>  SELECT id, visits, hidden FROM subjects ORDER BY FIELD(id, 6,19,id, 33) => 注意: id只能替换最后一个str，如id后还有str，则id后的str无效,将不会匹配排序
 
         3. 	认真仔细查看
             SELECT
-                id,
-                visits,
-                hidden,
-                status,
-                FIELD(hidden, 0,1,2) now_hidden,
-                FIELD(status, 2,0,1) now_hidden
-             FROM
-                subjects
-             ORDER BY
-             FIELD(hidden, 0,1,2) asc , FIELD(status, 2,0,1) asc , FIELD(visits, 60, visits);
+            	id,
+            	visits,
+            	hidden,
+            	STATUS,
+            	FIELD( hidden, 0, 1, 2 ) now_hidden,
+            	FIELD( STATUS, 2, 0, 1 ) now_status
+            FROM
+            	subjects
+            ORDER BY
+            	now_hidden ASC,
+            	now_status ASC,
+            	FIELD( visits, 60, visits );
 
-        4. FIELD函数根本用法(https://www.moonapi.com/news/26842.html),结合case when用法理解就能明白field用法中1,2,3案列的原理
+        4. FIELD函数根本用法(https://www.moonapi.com/news/26842.html), 结合case when用法理解就能明白field用法中1,2,3案列的原理
+
+        5. 注意 1. FIEDL方法不区分大小写: SELECT FIELD("a", "b", "A", "a", "c"); => 2(如区分大小写下=3)  2. 匹配到的索引都是从1开始
 
     4. locate用法
+        locate主要用于不区分大小写的字符串查找，可以返回字符串中第一次出现的子字符串的索引位置，结合order by进行排序
+        写法: locate(str, string, start_string) => str(匹配的str) string(被匹配的string) star(在string中开始匹配的位置)
+        注意： 1.不区分大小写 2. 只返回第一次匹配的索引 3. 未匹配索引为0 4.匹配到的索引都是从1开始
+
+        1.
+        SELECT LOCATE('bar', 'foobarbar');  -> 4
+        SELECT LOCATE('xbar', 'foobar');    -> 0
+        SELECT LOCATE('bar', 'foobarbar', 5);  -> 7
+
+        2.
+        SELECT
+        	id,
+        	visits,
+        	hidden,
+        	STATUS,
+        	FIELD( hidden, 0, 1, 2 ) now_hidden,
+        	FIELD( STATUS, 2, 0, 1 ) now_status
+        FROM
+        	subjects
+        ORDER BY
+        	LOCATE(now_status, '9990212', 6 );
+
 
 
     5. lnstr用法
+       1. 与locate方法相同，只是str与string位置相互调换
+       2. https://blog.csdn.net/weixin_35790277/article/details/127061559(lnstr与like方法转化)
 
     6. 利用数据字典实现自定义排序
+        新增字段，创建数据匹配对应索引，查询时，根据索引进行排序
 
+#################################################################
+9. rails下scripts/xx.rb脚本的使用
+    1. xx.rb脚本文件下不能写入model
+    2. run scripts/xxx.rb  执行脚本
+
+10. rails下 group_by的写法
+    Reservation.completed.joins("INNER JOIN shixuns ON reservations.shixun_id = shixuns.id INNER JOIN shixun_support_devices ON shixun_support_devices.shixun_id = shixuns.id").group_by{|d| d.date.to_s}
+    Reservation.completed.joins("INNER JOIN shixuns ON reservations.shixun_id = shixuns.id INNER JOIN shixun_support_devices ON shixun_support_devices.shixun_id = shixuns.id").group_by{|d| d.date}
+
+11. rails下 group_by可以按照多个字段进行排序
+    now_time_all_records = use_type_records.select("shixun_use_device_type_records.shixun_id, shixun_use_device_type_records.device_type_id, today_used_num,date ").group_by{|d| [ d.date,d.device_type_id ]} => device_details_controller下(科大实验室)
+
+12. mirror.assign_attributes(params)写法常考后台镜像创建
+
+
+13. model使用serialize下 如果该字段为null序列化后出来的值=nil(不会等对应序列化方式的空值 如 [], {} )

@@ -17,3 +17,10 @@
 
     stage_shixuns <=> course_stage_shixuns
 
+
+
+2. 珠海科技学院测试环境上线方式:
+    url: https://local-zhuhai.educoder.net
+    branch: dev_local_v7_zhuhaikejixueyuan
+    port: 2234
+    跳板机连接方式: ssh pdl@127.0.0.1 -p2234 密码 pre123123

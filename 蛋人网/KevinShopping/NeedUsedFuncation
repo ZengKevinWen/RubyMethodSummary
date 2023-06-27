@@ -1,0 +1,11 @@
+1. KevinShopping项目下使用定时任务
+   1. 参考homework_common表中的模式使用
+   2. JobItems表 ScheduleJobUtil HomeworkCommon表的结合使用
+      1. ScheduleJobUtil模块 job_items表 结合定时任  并且定时任务执行后能否删除  当前时间大于指定任务的执行数据，定时任务会不会执行
+      2. (包括定时任务) => 当定时任务的时间为false或者 true时，会直接执行  2.当定时任务已执行后，是无法删除的(应该是的)
+      3. job_item.rb表下重写了 destroy方法 可以学习
+
+
+2. KevinShopping项目增加 自定义FormService写法
+   1.Users::UpdateAccountForm类写法结合 users/accounts_controller下update方法结合可能详细查看一下(可以当做一个模块使用)
+   2.course_second_categories.rb 下 校验name字段 多个字段的唯一写法
