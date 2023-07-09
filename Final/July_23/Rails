@@ -1,0 +1,25 @@
+1. 学习June_23未学完的知识点
+
+
+
+1. to_sql结合from使用
+    如:
+        score_records = ScoreRecord.all
+        rails_sql = score_records.group("competition_scores.competition_team_id ,competition_scores.user_id").select("SUM(cost_time) times, SUM(score) all_score, competition_scores.user_id user_id, competition_team_id").to_sql
+        puts rails_sql => 打印mysql查询语句
+
+    想针对rails_sql中零时表操作时候要结合from的使用
+    如:
+        score_records.select("SUM(a.xxx)").from("(#{rails_sql}) as test_table").group("test_table.xxx, score_records.xxx ").order("xx")
+        一般建from前直接使用rails_sql的原model
+        如: ScoreRecords.from........
+
+
+2. courses下 导出视频浏览记录接口与导出xlsx格式接口
+    # 导出xlsx文件写法
+
+3. dev_aliyun分支下reset_password方法
+
+
+4. rails转码  force_encoding("utf-8")
+    Str.fore_encoding("utf-8")

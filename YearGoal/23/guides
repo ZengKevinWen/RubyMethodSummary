@@ -1,0 +1,20 @@
+Guides: https://ruby-china.github.io/rails-guides/index.html
+
+
+模型:
+JuLy:
+    Active Record 基础:  https://ruby-china.github.io/rails-guides/active_record_basics.html
+
+    Active Record 迁移
+
+Active Record 数据验证
+
+Active Record 回调:
+    1. https://ruby-china.github.io/rails-guides/active_record_callbacks.html
+    2. https://doc.bccnsoft.com/docs/rails-guides-4.1-cn/active_record_callbacks.html
+
+Active Record 关联:
+
+Active Record 查询接口:
+
+Active Model 基础

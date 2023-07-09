@@ -1,31 +1,4 @@
-Git
-1. https://blog.csdn.net/qq_35432904/article/details/107232691(分支间合并部分commit)与一些常见的使用
 
-Ruby
-
-1. ruby进阶
-
-2. method_missing方法
-
-3. gem包的创建与发布
-
-4. 若想自定义父类原有的方法 在当前类下 自定义父类方法 => 原理是在父类方法的基础上增加代码 => 待测试(结合 copy项目下 Timemodel模块)
-
-
-
-Final
-1.  10.24-10.30
-    11.07-11.13
-    11.21-11.27
-    11.28-12.04
-    12.05-12.11
-    12.12-12.18
-
-
-2. dev_local_v7_kjyj分支下 sci/projects_controller下  根据collection方法搜索 joins(:collections)时 会在joins后 on条件上自动增加 container_type="Sci:Project"的判断 这个是什么时候加上去 待研究
-
-
-3. CustomFunctionDemo项目所有commit复习
 
 
 
@@ -48,13 +21,12 @@ rails
             1.https://blog.csdn.net/axu_air/article/details/78403720
             2.https://www.cnblogs.com/hello-ruby/p/15189209.html
 
+2. CustomFunctionDemo项目所有commit复习
 
-2. RailsMailer操作(详细操作)
 
-3. RailsJob(详细操作)
 
 # 重点; 做后台不用第三方框架下 ManageBackHelper模块下的方法很有用
-4. ManageBackHelper模块(后台数据填充演示模块)
+3. ManageBackHelper模块(后台数据填充演示模块)
         1. overflow_hidden_span
             <td class="text-left">
                   <%= link_to "#{@remote}/users/#{user.login}/classrooms", target: '_blank' do %>
@@ -73,34 +45,15 @@ rails
         3. content_tag方法
 
 
-5. 蛋人网(rails项目-BS商城)
-
-6. rails 前端技术闪现消息还带加强(最开始的rails书籍要回顾一下)
-
-
-7. educoder用户功能设计   => 也是个重点与难点
-    1.游客登录(用户并没有登录)时候 current_user = User.find(2) => 代码如何实现从User.current切入
+4. 蛋人网(rails项目-BS商城)
 
 
 
-8. 批量更新百万级千万级的数据(不是本质上解决的方法)
-       1. find_each find_in_batches
-       2. 使用update_column字段更新 跳过 回调与校验
-       3. 可以将需要的数据拼接成为string类型 然后一条mysql执行 (感觉这个不一定ok)
-       StudentWork.find_each(batch_size: 10000,start: 10) do |work|
-             # update_column 方法取消校验与回调
-             work.update_column(:unadjusted_score, work.work_score)
-           end
 
-9. rails ActiveRecord下回调
- https://doc.bccnsoft.com/docs/rails-guides-4.1-cn/active_record_callbacks.html
-
-
-10. rails enum特性
+5. rails enum特性
     1. https://ruby-china.org/topics/28654
 
 
-11. guides下 ActiveRecord与ActiveModel所有模块
 
 12. rails下 includes与left_joins的区别
 

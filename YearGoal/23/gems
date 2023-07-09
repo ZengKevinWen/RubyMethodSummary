@@ -1,0 +1,16 @@
+
+
+1. 针对已经存在树状结构表，使用closure_tree下，需要将表之前的树状结构存入虚拟表中，写法如下:
+       文件: dev_aliyun 20230414022214_change_parent_id_default_to_iteam_banks_group.rb
+       class ChangeParentIdDefaultToIteamBanksGroup < ActiveRecord::Migration[5.2]
+         def change
+           change_column_default(:item_banks_groups, :parent_id, from: 0, to: nil)
+
+           ItemBanksGroup.where(parent_id: 0).update_all(parent_id: nil)
+
+           # 生成item_banks_groups_hierarchies记录
+           ItemBanksGroup.rebuild!
+         end
+       end
+
+2. gem包的创建与发布

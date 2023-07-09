@@ -1,0 +1,52 @@
+继续学习 June下的ruby
+
+
+1.  Array下通过value找到key
+    [2,34,6,7,8].index(value)
+
+2. String类型切割每个字符 => str.chars str.each_char{ |d| p d }  bytes each_types
+    str="12345312341dfasdafafda"
+
+3. 将阿拉伯数字转化中国数字(rubygems上没有相关的转换)
+
+    def number_to_chinese(num)
+      units = %w[零 一 二 三 四 五 六 七 八 九]
+      tens = %w[十 百 千]
+      digits = %w[万 亿]
+
+      # 将数字转换为字符串，并逆序处理
+      str = num.to_s.reverse
+
+      result = ''
+      str.chars.each_slice(4) do |group|
+        group_result = ''
+        group.each_with_index do |digit, index|
+          if digit != '0'
+            # 处理个位数
+            if index == 0 && digit == '1' && group.length > 1
+              group_result.prepend(tens[index])
+            else
+              group_result.prepend(units[digit.to_i] + tens[index])
+            end
+          elsif group_result.start_with?('零') && index == 0
+            # 处理连续的零
+            group_result = ''
+          end
+        end
+
+        # 添加数字位数单位
+        result.prepend(group_result + digits.shift) unless group_result.empty?
+      end
+
+      result.prepend('负') if num.negative?
+      result
+    end
+
+    puts number_to_chinese(123456789) # 一亿二千三百四十五万六千七百八十九
+    puts number_to_chinese(-987654321) # 负九亿八千七百六十五万四千三百二十一
+
+
+
+
+
+

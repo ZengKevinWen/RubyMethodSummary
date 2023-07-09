@@ -1,33 +1,31 @@
-今年
+主要路线:
 
 1. 争取吧数据库工程师资格证书考了
 
-2. 台式必买
+2. 台式必买(√)
 
+3. 升本
 
 3.ruby rails 书籍
+    1. rails5
+    2. ruby源编程
 
-4. 升本考了
 
 5. 前后端项搭建登录功能吧(估计至少都得后半年才有时间)
-
-6. 实现用户文件夹功能
-
-
-7. 针对已经存在树状结构表，使用closure_tree下，需要将表之前的树状结构存入虚拟表中，写法如下:
-    文件: dev_aliyun 20230414022214_change_parent_id_default_to_iteam_banks_group.rb
-    class ChangeParentIdDefaultToIteamBanksGroup < ActiveRecord::Migration[5.2]
-      def change
-        change_column_default(:item_banks_groups, :parent_id, from: 0, to: nil)
-
-        ItemBanksGroup.where(parent_id: 0).update_all(parent_id: nil)
-
-        # 生成item_banks_groups_hierarchies记录
-        ItemBanksGroup.rebuild!
-      end
-    end
+    1. educoder用户功能设计(cookie的存储)   => 也是个重点与难点
+        1.游客登录(用户并没有登录)时候 current_user = User.find(2) => 代码如何实现从User.current切入
 
 
+    2. 自定义定时任务的使用
+        1. 定时任务的详情设计参考educoder下ScheduleJobUtil模块
+            1. ScheduleJobUtil模块 job_items表 结合定时任  并且定时任务执行后能否删除  当前时间大于指定任务的执行数据，定时任务会不会执行
+
+            (包括定时任务) => 当定时任务的时间为false或者 true时，会直接执行  2.当定时任务已执行后，是无法删除的(应该是的)
+
+
+
+6. 蛋人网(三门课程)
+    1. 购物商城
 
 
 开启服务： 1.启动Rails Web Server(如webrick)
@@ -45,12 +43,3 @@
 有那些中间接： 16.ActionController根据请求参数Patch码实例化ActiveModel实体 17.在ActionController中激活对应的控制器并处理请求，调用Model从数据库查询数据，把Model封装成view（actionView） 18.ActionView就根据erb语法把数据在页面上展示 19.Rack实例把数据包装成响应封装给客户端 20.客户端得到响应
 
 
-6月
-
-1. 实现用户文件夹功能
-
-
-2. 定时任务的详情
-    1. ScheduleJobUtil模块 job_items表 结合定时任  并且定时任务执行后能否删除  当前时间大于指定任务的执行数据，定时任务会不会执行
-
-    (包括定时任务) => 当定时任务的时间为false或者 true时，会直接执行  2.当定时任务已执行后，是无法删除的(应该是的)

@@ -118,19 +118,58 @@
     6. 利用数据字典实现自定义排序
         新增字段，创建数据匹配对应索引，查询时，根据索引进行排序
 
-#################################################################
-9. rails下scripts/xx.rb脚本的使用
-    1. xx.rb脚本文件下不能写入model
-    2. run scripts/xxx.rb  执行脚本
+9(√). rails下scripts/xx.rb脚本的使用
+    1. xx.rb脚本文件使用model报错
+    2. bundle exec ruby scripts/xxx.rb 执行脚本
 
-10. rails下 group_by的写法
+
+10(√). rails下 group_by的写法 => 多看，rails允许这种写法 => 但是不是很优雅
     Reservation.completed.joins("INNER JOIN shixuns ON reservations.shixun_id = shixuns.id INNER JOIN shixun_support_devices ON shixun_support_devices.shixun_id = shixuns.id").group_by{|d| d.date.to_s}
     Reservation.completed.joins("INNER JOIN shixuns ON reservations.shixun_id = shixuns.id INNER JOIN shixun_support_devices ON shixun_support_devices.shixun_id = shixuns.id").group_by{|d| d.date}
 
-11. rails下 group_by可以按照多个字段进行排序
+11(√). rails下 group_by可以按照多个字段进行排序 => 一般不建议使用
     now_time_all_records = use_type_records.select("shixun_use_device_type_records.shixun_id, shixun_use_device_type_records.device_type_id, today_used_num,date ").group_by{|d| [ d.date,d.device_type_id ]} => device_details_controller下(科大实验室)
 
-12. mirror.assign_attributes(params)写法常考后台镜像创建
+
+12(对). mirror.assign_attributes(params)写法常考后台镜像创建
+    1. chartgpt文档: https://chat.openai.com/c/c129b141-fff1-45c0-a5f4-1e5666f7614e
+    2. rails on api文档:
+    3. github文档: https://github.com/rails/rails/blob/80e66cc4d90bf8c15d1a5f6e3152e90147f00772/activemodel/lib/active_model/attribute_assignment.rb#L26
+
+    总结: 查看各个文档源码时候存在一定的差异，可能是rails版本不同，具体要通过实践得出
+        1. chartgpt应该是老版源文档 => 没有校验数据格式与空数据与非实例化对象字段的过滤判断
+        2. rails on api与github 上是过滤1中的所有判断(非实例对象字段会报错)
+        3. 结合健壮函数的使用批量跟新多个字段是个不错的选择 require(:shixun).permit(:name, school_name: [], ids:[:name, school_ids: [1] ] )
+
+13(对). setter方法 , getter方法 setter(attr_write=> 写) (attr_reader => 读)
+    参考文档: https://chat.openai.com/?model=text-davinci-002-render-sha
+    class Demo
+        # 无定义下默认attr_accessor
+        attr_accessor :name #(可读可写)
+        attr_reader
+        attr_write
+
+        def initliaze(name)
+            @name=name
+        end
+
+        # 自定义setter
+        def name=(value="Kevin")
+            p "自定义setter方法"
+            @name = value
+        end
+
+        # 自定义getter
+        def name
+            p "自定义getter"
+            @name
+        end
+
+    end
+14(对). Hash下stringify_keys方法  => 将Hash类型下的key值的类型全部转化为string类型 => Hash.stringify_keys => Json
+    参考文档:https://chat.openai.com/?model=text-davinci-002-render-sha
 
 
-13. model使用serialize下 如果该字段为null序列化后出来的值=nil(不会等对应序列化方式的空值 如 [], {} )
+
+
+13(√). model使用serialize下 如果该字段为null序列化后出来的值=nil(不会等对应序列化方式的空值 如 [], {} )
