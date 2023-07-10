@@ -3,7 +3,13 @@
 
 
 
-1. "[1,2,3,4,5,6]" => [1,2,3,4,5,6]
-    https://www.baidu.com/s?ie=UTF-8&wd=rails%20%E5%B0%86string%E7%B1%BB%E5%9E%8B%E8%BD%ACarray
-    https://www.jb51.cc/faq/962229.htm
-    https://www.jianshu.com/p/8d15633af05f
+1(√). "[1,2,3,4,5,6]" => [1,2,3,4,5,6]: "[1,2,3,4,5,6]".tr("[]","").split(",").map(&:to_i)
+    https://www.wp2.cn/other/%E5%9C%A8rails%E4%B8%AD%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%95%B0%E7%BB%84/
+
+
+2(√). Str下tr方法(替换) Str.tr("str最外层的符号","xxx")
+    1. "[12,3,5,assd,ad,]".tr("[]","{}") => "{12,3,5,assd,ad,}"
+    2. "{12,3,5,assd,a)d,)".tr("{)","[]") => "[12,3,5,assd,a]d,]"
+
+    参考文档:
+    1.https://chat.openai.com/c/58b42359-471c-4020-99ef-f56fefbb6d0a
