@@ -2,10 +2,16 @@
     1. 完成May_23未完成的任务
 
 
-1. mysql sting类型 转换 时间类型
+1(对). mysql sting类型 转换 时间类型
     1. https://blog.51cto.com/u_16099256/6292120
 
-2. mysql的度字段分组
+    案列:
+    1.str_to_date(str,format) => SELECT created_at,STR_TO_DATE('2023,11--02,11,12,45',"%Y,%m--%d,%h,%i,%s") as time from shixuns where created_at < STR_TO_DATE('2023,11-02',"%Y,%m-%d") 可以主要使用这一种
+    2. SELECT CAST('8.8.0' AS DATETIME)(任意格式转化任意格式)
+
+2(√). mysql的度字段分组
    https://blog.csdn.net/qq_39380155/article/details/102612988
 
-3. mysql的between and的使用
+3(√). mysql的between and的使用
+    1. between and 方法性能比 >= > < <=等这些判断性能要稍微好一点点
+    2. User.where 'attr between str and str'
