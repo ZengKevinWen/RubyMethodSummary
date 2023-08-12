@@ -8,3 +8,10 @@
                 # update_column 方法取消校验与回调
                 work.update_column(:unadjusted_score, work.work_score)
               end
+
+
+
+8月
+    1. leetcode
+        1. 基础mysql学习进度(刷透)
+        2. mysql所有题目

@@ -24,9 +24,6 @@
 
 
 
-6. 蛋人网(三门课程)
-    1. 购物商城
-
 
 开启服务： 1.启动Rails Web Server(如webrick)
 
