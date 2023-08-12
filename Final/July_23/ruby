@@ -45,7 +45,9 @@
     puts number_to_chinese(123456789) # 一亿二千三百四十五万六千七百八十九
     puts number_to_chinese(-987654321) # 负九亿八千七百六十五万四千三百二十一
 
-
+4(多看=>会用). Ruby Base64
+    1. https://www.baidu.com/s?ie=UTF-8&wd=ruby%20Base64
+    2. https://www.codenong.com/049791daca69120d7035/
 
 
 

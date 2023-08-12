@@ -13,3 +13,7 @@
 
     参考文档:
     1.https://chat.openai.com/c/58b42359-471c-4020-99ef-f56fefbb6d0a
+
+3(√). JSON.parse("[1,23,45,5,6,67,7]")
+    => [1,23,45,5,6,67,7]
+    文档: https://chat.openai.com/c/01 c534c9-c84f-4675-b7f4-18f17d606e1a

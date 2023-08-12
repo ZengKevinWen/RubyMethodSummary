@@ -23,3 +23,7 @@
 
 4. rails转码  force_encoding("utf-8")
     Str.fore_encoding("utf-8")
+
+
+5. 学会rubymine中git的合并原理，查看某一个文件的commit记录
+    https://www.php.cn/faq/487194.html

@@ -1,0 +1,59 @@
+
+
+
+
+
+1. controller下不增加 show方法(却有show.view文件)， routes使用collection并get请求下 会默认将方法当作id => 迷惑行为(需要具体测试)
+
+
+
+2(√).  demo_controller与demo_helper交互使用
+    1. 默认情况下helper的方法只能在views中使用
+    2. views/demo下使用demo2_helper => 在demos_controller include Demo2Helper
+    3. demos_controller下使用helper方法
+        helpers.create_association_for_sub_discipline_containers(@xxx, xxx) => DemosController.helpers.create_association_for_sub_discipline_containers(xx,xx)
+    4. demos_controllers下使用demo2_helper方法
+        Demo2Controller.helpers.funcation(xxx,xxx)
+    5. 将demos_controller下的funcation在 views/demos中使用
+        helper_method :funcation  => 将controller中方法在views下使用
+
+
+3(√). 健壮方法
+    1. params.require(:user).permit(:name)
+    2. params.permit(:name)
+    3. params.fetch(:user, {name: "123", old: []}).permit(:name, old: [])的区别  https://chat.openai.com/?model=text-davinci-002-render-sha
+    4. params(:course).permit(:name, description: "默认name") 携带默认值写法
+           def form_params
+              params.permit(:discipline_id,tag_discipline_ids: [], choices: %i[choice_text is_answer], standard_answers: [:position, :answer_text => []], :sub_item_banks => [:item_type, :name, :id, :analysis, choices: %i[choice_text is_answer]])
+           end
+
+
+    commit: 38eae018b062362a94a86ac836fb8a97c476c89d
+    branch: kevin_test_dev_aliyun
+
+
+4. bulk_insert 与 activerecord-import
+    1. 不同的Gem
+    2. 根据场景不同使用不同的批量插入
+    3. 参考文档: https://chat.openai.com/c/74c4b87c-ec7b-46f7-bc55-e9750048433c
+
+
+5.  update update! save save! update_attribute update_column 详细介绍与测试
+    1. 重新回顾一下 update(都会回调与验证) update_column(跳过回调与验证) update_attribute(跳过验证)  update_all()则是对类的操作跳过验证和回调
+
+    2. save & save!区别   前者保存成功true 失败为(null || false)  后者保存成功true失败抛出异常 =>
+           https://www.cnblogs.com/yanmiao/archive/2012/05/15/2501318.html
+
+
+6. 非必要情况下不适用这种写法(更新位置)
+    @subject.subject_members.where("position > #{teacher.position}").update_all("position = position - 1")
+
+7(√). 配置全局redis实列 || config/initializers文件简单介绍
+
+   1. rails启动下 config/initializers文件下全局配置文件执行
+   2. gem 'redis-rails'
+   3. config下增加 redis.yml
+   4. initializer文件夹下 创建redis.rb 并实例化 $redis(全局redis实列)
+
+   commit: 13d70a50
+   branch: kevin_test_dev_aliyun

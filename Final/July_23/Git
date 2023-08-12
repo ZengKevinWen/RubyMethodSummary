@@ -1,0 +1,3 @@
+1.  取消所有代理(出现代理相关的问题时)
+    git config下存在多个http.proxy代理下删除会报错，需要直接删除全部该类型代理 => git config --global --unset-all http.proxy
+

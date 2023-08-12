@@ -1,5 +1,1 @@
-1. params(:course).permit(:name, description: "默认name") 携带默认值写法
-    def form_params
-       params.permit(:discipline_id,tag_discipline_ids: [], choices: %i[choice_text is_answer], standard_answers: [:position, :answer_text => []], :sub_item_banks => [:item_type, :name, :id, :analysis, choices: %i[choice_text is_answer]])
-    end
-
+\
