@@ -1,0 +1,29 @@
+
+
+1. GROUP_CONCAT函数使用
+    案列： https://leetcode.cn/problems/average-time-of-process-per-machine/?envType=study-plan-v2&envId=sql-free-50
+
+
+
+2. CASE函数实现行转换列
+
+
+
+
+3. COUNT函数统计多个字段
+   1. SELECT
+      	id,
+      	container_id,
+      	container_type,
+      	COUNT(DISTINCT container_id,  container_type) container_num, # 统计container_id与container_type为主键的数量(已经去除NULL)
+      	COUNT(DISTINCT container_type) container_type_num,
+      	COUNT(container_type) container_type_num2,
+      	COUNT(DISTINCT container_id) container_num2,
+      	COUNT( container_id) container_num2,
+      	COUNT(*) num
+      FROM
+      	attachments
+      WHERE
+      	id BETWEEN 1
+      	AND 157
+   2. COUNT函数与DISTINCT函数会去重NULL的数据
