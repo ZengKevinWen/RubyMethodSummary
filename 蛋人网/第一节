@@ -10,7 +10,7 @@
 
 
 2. application.rb文件配置取消自动生成js css test等文件写法
-	# rails generate 操作name 会自动生产一些js css test文件 下列代码将取消生成这些文件
+	# rails generate [option] 会自动生产一些js css test文件 下列代码将取消生成这些文件 rails g scaffold
 	    config.generators do |g|
 	      g.assets false
 	      g.test_framework false

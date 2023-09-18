@@ -1,0 +1,7 @@
+1. sorcery(轻量级认证gem)
+
+
+2. model下 validates :password, minimum: 8, if: :customer_method =>    默认会执行去的validates方法(save update) 增加if后 => customer_method =  true 触发validates
+    def customer_method
+        self.new_record? ||
+    end
