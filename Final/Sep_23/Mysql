@@ -1,0 +1,18 @@
+
+1. mysql问题 1. group之后select外键能继续使用includes(能)  2. 先joins(:demo)中like后，然后includes(:demo)会报错 如果取消includes(:demo)下 在console会出现demo load的缓存 如何取消勒？
+    代码出现场景： 鹏程竞赛 competition_commit_records/member_works
+
+
+2. includes(:demo) 解决N+1 更如深入了解 # includes(:attachments)下 使用where("attachments.attachtype = 1")会出现N+1 如何解决如下:
+   增加 # has_many :commit_files,->{ search_by_attachtype(1) }, as: :container, dependent: :destroy, class_name: "Attachment" 同时将includes(:attachments) 换成 includes(:commit_files)
+   has_many :commit_files,->{ search_by_attachtype(File::COMMIT_FILE) }, as: :container, dependent: :destroy, class_name: "Attachment"
+   分支: competition_commit_records_controller下member_works与competition_commit_record.rb中
+
+3. mysql8.0新功能，能很好的解决分组后取中间某一字段的最大值与对应的行数据https://chat.openai.com/c/a7d1e665-78b8-405b-9d26-1a74ec2eea55
+
+
+4. mysql5.7之前的使用group_concat + group by + SUBSTRING_INDEX函数的使用实现
+    参考鹏程竞赛主观题评分 subjective_evaluation_list
+    参考文档: https://chat.openai.com/c/3e544ef7-9578-4412-8e53-9f33d56a9faa
+
+5. mysql中IN函数下必填参数否则回报错如 IN () => 报错 IN (FULL) => false

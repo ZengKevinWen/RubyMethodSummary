@@ -27,3 +27,9 @@
       	id BETWEEN 1
       	AND 157
    2. COUNT函数与DISTINCT函数会去重NULL的数据
+
+4. mysql CROSS JOIN(全连接/交叉连接) CONCAT拼接多个字段关联数据 USING(attr1,attr2)  ON(多字段就用AND)
+   参考文档:   1. https://leetcode.cn/problems/students-and-examinations/discussion/?envType=study-plan-v2&envId=sql-free-50    2.https://chat.openai.com/c/fbbfe2bc-4797-4223-8d8d-0efc4937a410
+
+5. SUM与COUNT
+    1. https://leetcode.cn/problems/confirmation-rate/discussion/?envType=study-plan-v2&envId=sql-free-50 2. https://chat.openai.com/c/5ea3f2d2-2251-4ddf-9f07-636a7c11f3b3

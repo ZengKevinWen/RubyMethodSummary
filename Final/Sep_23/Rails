@@ -1,0 +1,18 @@
+
+
+1. labortory_setting.rb下  config&.[](method_name.to_s) = config["name"]  前者可以过滤NUll的情况 后者在config=null下直接报错  前者稳定性更好
+
+
+
+
+2. https://chat.openai.com/c/ed00b509-74a3-4a20-82c9-9f2cff340fc8
+
+
+3. dev_local_v7_pengcheng_forum分支下竞赛模块 competitions_controller/ add_stage
+   方法关联了健壮函数(不知道为什么不能获取携带默认值的参数) ActiveModel::Model的国际化写法与 Active::Record国际化与 validate validates validates!(对象或者类都有方法)
+   相关参考地址: https://chat.openai.com/c/ed00b509-74a3-4a20-82c9-9f2cff340fc8
+               https://chat.openai.com/c/98338fac-c6a1-40b4-a021-0449fa77785b
+               https://chat.openai.com/c/66d919bc-5921-4bae-916e-3a09a03881e7
+
+
+4. enum下 _suffix: true => model中status type等字段不能当做枚举 因此加上_suffix: true后 允许使用enum但是 enum_name?(稍微改变)
