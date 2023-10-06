@@ -1,0 +1,2 @@
+1. rails g migration
+    t.decimal :price, precision: 10, scale: 2 #小数使用 => 共十位，精确到小数点后2位
